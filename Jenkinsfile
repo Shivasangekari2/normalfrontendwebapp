@@ -14,11 +14,8 @@ pipeline {
         stage('Verify Tag'){
             steps {
                 script{
-                    def tag = sh(script: "git tag --points-at HEAD 2>/dev/null || echo ''", returnStdout: true).trim()
-                    if (!tag) {
-                        error("No tag found. Pipeline only runs on tagged commits.")
-                    }
-                    echo "Deploying tag: ${tag}"
+                    def tag = sh(script: "git describe --tags --abbrev=0 2>/dev/null || echo ''", returnStdout: true).trim()
+                    echo "Latest tag: ${tag}"
                 }
             }
         }
